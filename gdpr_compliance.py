@@ -1,13 +1,3 @@
-"""
-
-
-This module provides GDPR compliance features for the Streamlit application:
-1. Small, unobtrusive GDPR Consent Popup at the bottom of the screen
-2. In-app Privacy Policy display using Markdown
-3. GDPR Information via an external iframe
-
-These features help ensure the application adheres to GDPR requirements for data protection.
-"""
 
 import streamlit as st
 import os
