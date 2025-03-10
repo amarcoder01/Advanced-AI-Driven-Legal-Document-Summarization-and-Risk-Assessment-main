@@ -1,5 +1,5 @@
 """
-GDPR Compliance Module for AI Legal Document Assistant
+
 
 This module provides GDPR compliance features for the Streamlit application:
 1. Small, unobtrusive GDPR Consent Popup at the bottom of the screen
@@ -25,8 +25,8 @@ PRIVACY_POLICY_MARKDOWN = """
 
 Welcome to AI Legal Document Assistant. We are committed to protecting your privacy and handling your data with transparency and care. This Privacy Policy explains how we collect, use, and safeguard your information.
 
-**Last Updated: June 2024**  
-**Effective Date: June 1, 2024**
+**Last Updated: march 2025**  
+**Effective Date: march 10, 2025**
 
 ## 2. Information We Collect
 
@@ -110,7 +110,7 @@ Optional cookies for:
 
 ## 9. Children's Privacy
 
-Our service is not intended for users under 16 years of age. We do not knowingly collect or process data from children.
+Our service is not intended for users under 14 years of age. We do not knowingly collect or process data from children.
 
 ## 10. Changes to This Policy
 
@@ -132,7 +132,7 @@ For privacy-related inquiries:
 **Data Protection Officer**  
 - Email: privacy@legaldocumentassistant.com  
 - Phone: +1 (555) 123-4567  
-- Address: 123 Legal Tech Street, Suite 100, San Francisco, CA 94105  
+- Address: 
 
 Response Time: Within 48 hours
 
@@ -146,7 +146,7 @@ We comply with:
 
 def add_privacy_policy_footer():
     """
-    Add a minimal privacy policy link and copyright notice to the bottom of the page.
+    
     """
     st.markdown("---")
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -168,7 +168,7 @@ def add_privacy_policy_footer():
 
 def show_privacy_policy():
     """
-    Display the in-app privacy policy with improved styling.
+    
     """
     st.markdown("""
     <style>
@@ -193,7 +193,7 @@ def show_privacy_policy():
 
 def show_gdpr_info_iframe():
     """
-    Show an iframe with external GDPR information.
+   
     """
     st.markdown("### GDPR Information")
     st.markdown("This information is sourced from an external website.")
@@ -213,22 +213,18 @@ def show_gdpr_info_iframe():
         unsafe_allow_html=True
     )
 
-# Placeholder for GDPR-Compliant Data Handling Functions (TO BE IMPLEMENTED)
-# These functions should handle storing, retrieving, deleting, and exporting user data securely.
+# 
+# 
 """
 def store_user_data(user_id, data):
-    # Store user data in a GDPR-compliant manner.
-    pass
+ 
 
 def retrieve_user_data(user_id):
-    # Retrieve user data with proper authentication and logging.
-    pass
+    
 
 def delete_user_data(user_id):
-    # Delete user data upon request (right to be forgotten).
-    pass
+  
 
 def export_user_data(user_id):
-    # Export user data in a portable format (right to data portability).
-    pass
+    
 """
