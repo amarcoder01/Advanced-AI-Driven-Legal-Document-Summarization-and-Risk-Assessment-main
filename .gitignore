@@ -10,7 +10,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -28,9 +27,11 @@ wheels/
 *.egg
 
 # Virtual Environment
+.env
+.venv
+env/
 venv/
 ENV/
-env/
 
 # Data and vector stores
 vector_db/
@@ -52,16 +53,17 @@ Thumbs.db
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*.ipynb
 
 # Streamlit
-.streamlit/watchdog.json
+.streamlit/secrets.toml
 
 # Downloaded files and temporary files
 *.docx
 !requirements.txt
-!Runtime.text
-!README.md
-!DEPLOYMENT.md
+!runtime.txt
+temp/
+uploads/
 
 # Logs
 *.log 
