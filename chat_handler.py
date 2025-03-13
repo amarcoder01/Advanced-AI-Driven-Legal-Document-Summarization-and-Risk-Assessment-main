@@ -1,5 +1,5 @@
 import streamlit as st
-import openai
+import google.generativeai as genai
 import json
 import logging
 from datetime import datetime
@@ -17,8 +17,9 @@ class ChatHandler:
     def load_config(self):
         """Load API configurations from Streamlit secrets."""
         try:
-            self.openai_api_key = st.secrets["openai"]["api_key"]
-            openai.api_key = self.openai_api_key
+            self.google_api_key = st.secrets["google"]["api_key"]
+            genai.configure(api_key=self.google_api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-pro')
         except Exception as e:
             logging.error(f"Error loading API configuration: {str(e)}")
 
@@ -104,21 +105,16 @@ class ChatHandler:
             # Get document context
             doc_context = st.session_state.get("extracted_text", "")
             
-            # Prepare messages for GPT
-            messages = [
-                {"role": "system", "content": "You are a document analysis expert. Use the provided document context to answer questions accurately and comprehensively."},
-                {"role": "user", "content": f"Document context: {doc_context}\n\nQuestion: {prompt}"}
-            ]
+            # Prepare prompt for Gemini
+            full_prompt = f"""You are a document analysis expert. Use the provided document context to answer questions accurately and comprehensively.
+
+Document context: {doc_context}
+
+Question: {prompt}"""
             
-            # Get response from GPT
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=500
-            )
-            
-            return response.choices[0].message.content
+            # Get response from Gemini
+            response = self.model.generate_content(full_prompt)
+            return response.text
             
         except Exception as e:
             logging.error(f"Error handling document query: {str(e)}")
@@ -127,25 +123,18 @@ class ChatHandler:
     def _handle_legal_query(self, prompt: str) -> str:
         """Handle legal-related queries."""
         try:
-            # Prepare messages for GPT with legal context
-            messages = [
-                {"role": "system", "content": "You are a legal expert assistant. Provide accurate legal information while noting that you cannot provide legal advice."},
-                {"role": "user", "content": prompt}
-            ]
+            # Prepare prompt for Gemini
+            full_prompt = f"""You are a legal expert assistant. Provide accurate legal information while noting that you cannot provide legal advice.
+
+Question: {prompt}"""
             
             # Add relevant legal context if available
             if "legal_context" in st.session_state:
-                messages.insert(1, {"role": "system", "content": f"Additional legal context: {st.session_state.legal_context}"})
+                full_prompt = f"Additional legal context: {st.session_state.legal_context}\n\n{full_prompt}"
             
-            # Get response from GPT
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=500
-            )
-            
-            return response.choices[0].message.content + "\n\nNote: This information is for general understanding and should not be considered legal advice."
+            # Get response from Gemini
+            response = self.model.generate_content(full_prompt)
+            return response.text + "\n\nNote: This information is for general understanding and should not be considered legal advice."
             
         except Exception as e:
             logging.error(f"Error handling legal query: {str(e)}")
@@ -157,21 +146,16 @@ class ChatHandler:
             # Search for relevant real-world examples
             search_results = self._search_real_world_examples(prompt)
             
-            # Prepare messages for GPT with real-world context
-            messages = [
-                {"role": "system", "content": "You are an expert at analyzing real-world scenarios and providing practical insights."},
-                {"role": "user", "content": f"Context from real-world examples: {search_results}\n\nQuestion: {prompt}"}
-            ]
+            # Prepare prompt for Gemini
+            full_prompt = f"""You are an expert at analyzing real-world scenarios and providing practical insights.
+
+Context from real-world examples: {search_results}
+
+Question: {prompt}"""
             
-            # Get response from GPT
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=500
-            )
-            
-            return response.choices[0].message.content
+            # Get response from Gemini
+            response = self.model.generate_content(full_prompt)
+            return response.text
             
         except Exception as e:
             logging.error(f"Error handling real-world query: {str(e)}")
@@ -180,21 +164,14 @@ class ChatHandler:
     def _handle_general_query(self, prompt: str) -> str:
         """Handle general queries."""
         try:
-            # Prepare messages for GPT
-            messages = [
-                {"role": "system", "content": "You are a helpful assistant with expertise in document analysis and legal matters."},
-                {"role": "user", "content": prompt}
-            ]
+            # Prepare prompt for Gemini
+            full_prompt = f"""You are a helpful assistant with expertise in document analysis and legal matters.
+
+Question: {prompt}"""
             
-            # Get response from GPT
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=500
-            )
-            
-            return response.choices[0].message.content
+            # Get response from Gemini
+            response = self.model.generate_content(full_prompt)
+            return response.text
             
         except Exception as e:
             logging.error(f"Error handling general query: {str(e)}")
