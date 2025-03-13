@@ -1,0 +1,67 @@
+# Environment and secrets
+.env
+.streamlit/
+.secrets
+*.secret
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Data and vector stores
+vector_db/
+documents/
+*.pdf
+*.txt
+*.csv
+*.md
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Streamlit
+.streamlit/watchdog.json
+
+# Downloaded files and temporary files
+*.docx
+!requirements.txt
+!Runtime.text
+!README.md
+!DEPLOYMENT.md
+
+# Logs
+*.log 
