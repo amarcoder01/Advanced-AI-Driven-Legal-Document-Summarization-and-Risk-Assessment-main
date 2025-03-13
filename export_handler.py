@@ -270,72 +270,112 @@ class ExportHandler:
         return clean_text
 
     def export_ui(self) -> None:
-        """Handle export UI and functionality."""
-        st.title("📤 Export Options")
+        """Display export options in the UI."""
+        st.markdown("### 📥 Export Analysis")
         
-        if not (st.session_state.get("summary") or st.session_state.get("risks")):
-            st.info("Upload a document and analyze it to enable download options.")
+        if not st.session_state.get("extracted_text"):
+            st.info("Upload and analyze a document to enable export options.")
             return
             
-        st.subheader("📥 Download Results")
+        # Prepare comprehensive content
+        content = self._prepare_comprehensive_content()
         
-        # Initialize download options
-        download_options = []
+        if content:
+            export_format = st.selectbox(
+                "Export Format",
+                ["PDF", "DOCX", "TXT"],
+                help="Choose the format for your exported analysis"
+            )
+            
+            if st.button("Export Analysis"):
+                try:
+                    if export_format == "PDF":
+                        buf = self.generate_pdf(content)
+                        st.download_button(
+                            label="Download PDF",
+                            data=buf,
+                            file_name=f"legal_analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf",
+                            mime="application/pdf"
+                        )
+                    elif export_format == "DOCX":
+                        buf = self.generate_docx(content)
+                        st.download_button(
+                            label="Download DOCX",
+                            data=buf,
+                            file_name=f"legal_analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.docx",
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        )
+                    else:  # TXT
+                        txt_content = self.generate_txt(content)
+                        st.download_button(
+                            label="Download TXT",
+                            data=txt_content,
+                            file_name=f"legal_analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.txt",
+                            mime="text/plain"
+                        )
+                except Exception as e:
+                    st.error(f"Error generating export: {str(e)}")
+                    logging.error(f"Export error: {str(e)}", exc_info=True)
+        else:
+            st.info("Analyze the document first to enable export options.")
+
+    def _prepare_comprehensive_content(self) -> Optional[str]:
+        """Prepare comprehensive content including all analysis components."""
+        content_parts = []
+        
+        # Document Summary
         if st.session_state.get("summary"):
-            download_options.append("Summary")
+            content_parts.extend([
+                "DOCUMENT SUMMARY",
+                "=" * 50,
+                st.session_state.summary,
+                "\n"
+            ])
+        
+        # Risk Analysis
         if st.session_state.get("risks"):
-            download_options.append("Risk Analysis")
+            content_parts.extend([
+                "RISK ANALYSIS",
+                "=" * 50,
+                st.session_state.risks,
+                "\n"
+            ])
         
-        selected_content = st.multiselect(
-            "Select content to export:",
-            options=download_options,
-            default=download_options
-        )
+        # Risk Score
+        if st.session_state.get("risk_score"):
+            content_parts.extend([
+                "RISK SCORE ANALYSIS",
+                "=" * 50,
+                f"Overall Risk Score: {st.session_state.risk_score}/100",
+                f"Risk Level: {st.session_state.risk_level}",
+                "\n"
+            ])
         
-        if not selected_content:
-            return
-            
-        # Generate content for export
-        export_content = ""
+        # Compliance Analysis
+        if st.session_state.get("compliance_results"):
+            content_parts.extend([
+                "COMPLIANCE ANALYSIS",
+                "=" * 50,
+                st.session_state.compliance_results,
+                "\n"
+            ])
         
-        if "Summary" in selected_content and st.session_state.get("summary"):
-            export_content += "DOCUMENT SUMMARY\n"
-            export_content += "=" * 50 + "\n"
-            export_content += st.session_state.summary + "\n\n"
-            
-        if "Risk Analysis" in selected_content and st.session_state.get("risks"):
-            export_content += "RISK ANALYSIS\n"
-            export_content += "=" * 50 + "\n"
-            export_content += st.session_state.risks + "\n\n"
-            
-        # Export format selection
-        export_format = st.selectbox(
-            "Choose export format:",
-            ["PDF", "DOCX", "TXT"]
-        )
+        # Key Findings
+        if st.session_state.get("key_findings"):
+            content_parts.extend([
+                "KEY FINDINGS",
+                "=" * 50,
+                st.session_state.key_findings,
+                "\n"
+            ])
         
-        # Add download button
-        if export_format == "PDF":
-            pdf_buffer = self.generate_pdf(export_content)
-            st.download_button(
-                label="Download PDF",
-                data=pdf_buffer,
-                file_name="legal_analysis.pdf",
-                mime="application/pdf"
-            )
-        elif export_format == "DOCX":
-            docx_buffer = self.generate_docx(export_content)
-            st.download_button(
-                label="Download DOCX",
-                data=docx_buffer,
-                file_name="legal_analysis.docx",
-                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            )
-        else:  # TXT format
-            txt_content = self.generate_txt(export_content)
-            st.download_button(
-                label="Download TXT",
-                data=txt_content,
-                file_name="legal_analysis.txt",
-                mime="text/plain"
-            ) 
+        # Recommendations
+        if st.session_state.get("recommendations"):
+            content_parts.extend([
+                "RECOMMENDATIONS",
+                "=" * 50,
+                st.session_state.recommendations,
+                "\n"
+            ])
+        
+        return "\n".join(content_parts) if content_parts else None 

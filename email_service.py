@@ -150,176 +150,150 @@ class EmailService:
             return False
         return True
 
-    def prepare_email_content(self, include_summary, include_risk_score, include_risks, include_visuals):
-        """Prepare well-formatted content for email"""
-        email_content = []
+    def prepare_email_content(self) -> str:
+        """Prepare comprehensive email content including all analysis components."""
+        content_parts = []
         
-        # Add document summary if selected
-        if include_summary and st.session_state.get("summary"):
-            email_content.append("DOCUMENT SUMMARY")
-            email_content.append("-" * 30)
-            
-            summary = st.session_state.summary
-            # Format summary if needed (e.g., bullet points)
-            if not summary.startswith("•") and not summary.startswith("-"):
-                paragraphs = [p.strip() for p in summary.split("\n") if p.strip()]
-                formatted_summary = "\n\n".join(paragraphs)
-                email_content.append(formatted_summary)
-            else:
-                email_content.append(summary)
+        # Add header
+        content_parts.extend([
+            "LEGAL DOCUMENT ANALYSIS REPORT",
+            f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+            "=" * 80,
+            "\n"
+        ])
         
-        # Add risk score if selected
-        if include_risk_score and st.session_state.get("risks"):
-            email_content.append("\nRISK SCORE")
-            email_content.append("-" * 30)
-            
-            if isinstance(st.session_state.risks, str):
-                score, high, medium, low = self._calculate_risk_counts(st.session_state.risks)
-                
-                email_content.append(f"Overall Risk Score: {score}/100")
-                email_content.append(f"Risk Level: {'High' if score >= 70 else 'Medium' if score >= 40 else 'Low'}")
-                email_content.append(f"High Priority Issues: {high}")
-                email_content.append(f"Medium Priority Issues: {medium}")
-                email_content.append(f"Low Priority Issues: {low}")
-            else:
-                email_content.append("Risk score analysis is included in the detailed risk section.")
+        # Document Summary
+        if st.session_state.get("summary"):
+            content_parts.extend([
+                "DOCUMENT SUMMARY",
+                "-" * 50,
+                st.session_state.summary,
+                "\n"
+            ])
         
-        # Add risk analysis if selected
-        if include_risks and st.session_state.get("risks"):
-            email_content.append("\nRISK ANALYSIS")
-            email_content.append("-" * 30)
-            
-            if isinstance(st.session_state.risks, str):
-                risks_text = st.session_state.risks
-                high_risks, medium_risks, low_risks = self._categorize_risks(risks_text)
-                
-                if high_risks:
-                    email_content.append("\nHIGH PRIORITY RISKS:")
-                    for i, risk in enumerate(high_risks, 1):
-                        email_content.append(f"{i}. {risk}")
-                
-                if medium_risks:
-                    email_content.append("\nMEDIUM PRIORITY RISKS:")
-                    for i, risk in enumerate(medium_risks, 1):
-                        email_content.append(f"{i}. {risk}")
-                
-                if low_risks:
-                    email_content.append("\nLOW PRIORITY RISKS:")
-                    for i, risk in enumerate(low_risks, 1):
-                        email_content.append(f"{i}. {risk}")
-                    
-                if not (high_risks or medium_risks or low_risks):
-                    email_content.append(risks_text)
-            else:
-                email_content.append("Detailed risk analysis is not available in text format.")
+        # Risk Score Analysis
+        if st.session_state.get("risk_score"):
+            content_parts.extend([
+                "RISK SCORE ANALYSIS",
+                "-" * 50,
+                f"Overall Risk Score: {st.session_state.risk_score}/100",
+                f"Risk Level: {st.session_state.risk_level}",
+                "\n"
+            ])
         
-        return "\n\n".join(email_content)
-
-    def _calculate_risk_counts(self, risks_text):
-        """Calculate risk counts and score from text"""
-        text_lower = risks_text.lower()
+        # Detailed Risk Analysis
+        if st.session_state.get("risks"):
+            content_parts.extend([
+                "DETAILED RISK ANALYSIS",
+                "-" * 50,
+                st.session_state.risks,
+                "\n"
+            ])
         
-        # Count risk keywords
-        high_count = sum(text_lower.count(word) for word in ['critical', 'severe', 'high risk', 'significant'])
-        medium_count = sum(text_lower.count(word) for word in ['moderate', 'medium', 'potential', 'possible'])
-        low_count = len(text_lower.split('.')) - high_count - medium_count
-        low_count = max(0, low_count)
+        # Compliance Analysis
+        if st.session_state.get("compliance_results"):
+            content_parts.extend([
+                "COMPLIANCE ANALYSIS",
+                "-" * 50,
+                st.session_state.compliance_results,
+                "\n"
+            ])
         
-        # Calculate score
-        total = high_count + medium_count + low_count
-        if total == 0:
-            return 0, 0, 0, 0
-            
-        score = min(100, round((high_count * 3 + medium_count * 2 + low_count) / total * 20))
-        return score, high_count, medium_count, low_count
-
-    def _categorize_risks(self, risks_text):
-        """Categorize risks by severity"""
-        sentences = [s.strip() for s in risks_text.split('.') if s.strip()]
+        # Key Findings
+        if st.session_state.get("key_findings"):
+            content_parts.extend([
+                "KEY FINDINGS",
+                "-" * 50,
+                st.session_state.key_findings,
+                "\n"
+            ])
         
-        high_risks = []
-        medium_risks = []
-        low_risks = []
+        # Recommendations
+        if st.session_state.get("recommendations"):
+            content_parts.extend([
+                "RECOMMENDATIONS",
+                "-" * 50,
+                st.session_state.recommendations,
+                "\n"
+            ])
         
-        high_keywords = ['critical', 'severe', 'high risk', 'significant']
-        medium_keywords = ['moderate', 'medium', 'potential', 'possible']
+        # Add footer
+        content_parts.extend([
+            "-" * 80,
+            "End of Report",
+            "\n"
+        ])
         
-        for sentence in sentences:
-            lower_sentence = sentence.lower()
-            if any(keyword in lower_sentence for keyword in high_keywords):
-                high_risks.append(sentence)
-            elif any(keyword in lower_sentence for keyword in medium_keywords):
-                medium_risks.append(sentence)
-            else:
-                low_risks.append(sentence)
-                
-        return high_risks, medium_risks, low_risks
+        return "\n".join(content_parts)
 
 def email_ui_section():
-    """Display the email UI section in the Streamlit app."""
-    st.subheader("📧 Email Results")
+    """Display email UI section with comprehensive options."""
+    st.markdown("### 📧 Email Analysis")
     
-    email_service = EmailService()
-    
-    recipient_email = st.text_input("Recipient Email Address")
-    
-    if recipient_email and not email_service.validate_email(recipient_email):
-        st.error("Please enter a valid email address")
+    if not st.session_state.get("extracted_text"):
+        st.info("Upload and analyze a document to enable email options.")
         return
         
-    # Content selection
-    st.write("Select content to include:")
-    include_summary = st.checkbox("Include Document Summary", value=True)
-    include_risk_score = st.checkbox("Include Risk Score", value=True)
-    include_risks = st.checkbox("Include Detailed Risk Analysis", value=True)
-    include_visuals = st.checkbox("Include Visualizations", value=False)
+    # Email input
+    recipient_email = st.text_input("Recipient Email Address")
     
-    # Format selection
-    format_options = ["PDF", "DOCX", "TXT"]
-    selected_format = st.selectbox("Select Export Format", format_options)
-    
-    if st.button("Send Email"):
-        if not recipient_email:
-            st.error("Please enter a recipient email address")
+    if recipient_email:
+        email_service = EmailService()
+        
+        if not email_service.validate_email(recipient_email):
+            st.error("Please enter a valid email address.")
             return
             
-        with st.spinner("Preparing and sending email..."):
-            # Prepare email content
-            email_content = email_service.prepare_email_content(
-                include_summary,
-                include_risk_score,
-                include_risks,
-                include_visuals
+        # Email customization
+        st.markdown("#### Email Options")
+        
+        subject = st.text_input(
+            "Email Subject",
+            value="Legal Document Analysis Report",
+            help="Customize the email subject line"
+        )
+        
+        # Prepare email content
+        email_content = email_service.prepare_email_content()
+        
+        if email_content:
+            # Format selection
+            attachment_format = st.selectbox(
+                "Attachment Format",
+                ["PDF", "DOCX", "TXT"],
+                help="Choose the format for the analysis attachment"
             )
             
-            # Prepare attachment based on selected format
-            attachment = None
-            attachment_name = None
-            attachment_type = None
-            
-            if selected_format == "PDF":
-                attachment = email_service.generate_email_pdf(email_content)
-                attachment_name = "legal_analysis.pdf"
-                attachment_type = "pdf"
-            elif selected_format == "DOCX":
-                # Add DOCX generation logic here
-                pass
-            elif selected_format == "TXT":
-                attachment = email_content
-                attachment_name = "legal_analysis.txt"
-                attachment_type = "txt"
-            
-            # Send email
-            success, message = email_service.send_email(
-                recipient_email,
-                "Legal Document Analysis Results",
-                "Please find attached the legal document analysis results.",
-                attachment,
-                attachment_name,
-                attachment_type
-            )
-            
-            if success:
-                st.success(message)
-            else:
-                st.error(message) 
+            if st.button("Send Email"):
+                try:
+                    with st.spinner("Sending email..."):
+                        # Generate attachment
+                        if attachment_format == "PDF":
+                            attachment = email_service.generate_email_pdf(email_content)
+                            attachment_name = f"legal_analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"
+                            mime_type = "application/pdf"
+                        elif attachment_format == "DOCX":
+                            attachment = email_service.generate_email_docx(email_content)
+                            attachment_name = f"legal_analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.docx"
+                            mime_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        else:  # TXT
+                            attachment = email_content.encode('utf-8')
+                            attachment_name = f"legal_analysis_{datetime.now().strftime('%Y%m%d_%H%M')}.txt"
+                            mime_type = "text/plain"
+                        
+                        # Send email
+                        email_service.send_email(
+                            recipient_email=recipient_email,
+                            subject=subject,
+                            body="Please find attached the legal document analysis report.",
+                            attachment=attachment,
+                            attachment_name=attachment_name,
+                            attachment_type=mime_type
+                        )
+                        
+                        st.success("Email sent successfully! 📨")
+                except Exception as e:
+                    st.error(f"Error sending email: {str(e)}")
+                    logging.error(f"Email error: {str(e)}", exc_info=True)
+        else:
+            st.info("Analyze the document first to enable email options.") 
