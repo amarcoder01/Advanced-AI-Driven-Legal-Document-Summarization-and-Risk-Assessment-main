@@ -709,9 +709,27 @@ def analyze_document():
     st.subheader("Document Analysis")
     if st.session_state.get("extracted_text"):
         if st.button("Generate Summary", key="generate_summary_button"):
-            with st.spinner("Analyzing document..."):
-                summary = summarize_document(st.session_state.extracted_text)
-                st.session_state.summary = summary if summary else "No summary generated."
+            with st.spinner("Analyzing document... This may take a few minutes..."):
+                progress_bar = st.progress(0)
+                
+                # Initialize RAG
+                progress_bar.progress(20)
+                rag_pipeline = initialize_rag_pipeline()
+                
+                # Process document
+                progress_bar.progress(40)
+                process_document(rag_pipeline, st.session_state.extracted_text)
+                
+                # Generate summary
+                progress_bar.progress(60)
+                summary_result = generate_summary(rag_pipeline, "Provide a comprehensive summary of this document")
+                
+                progress_bar.progress(100)
+                st.success("Analysis complete!")
+                
+                # Display results
+                st.write("### Document Summary")
+                st.write(summary_result["response"])
         
         if st.session_state.get("summary"):
             st.markdown("### 📝 Document Summary")
@@ -873,6 +891,21 @@ def compare_documents():
                                 st.markdown("---")
                     else:
                         st.write("No common elements identified.")
+
+@st.cache_resource
+def initialize_rag_pipeline():
+    return RAGPipeline(
+        vector_db_path="./vector_db",
+        embedding_model="sentence-transformers/all-MiniLM-L6-v2"
+    )
+
+@st.cache_data
+def process_document(_rag_pipeline, file_content):
+    return _rag_pipeline.add_documents([file_content])
+
+@st.cache_data
+def generate_summary(_rag_pipeline, query):
+    return _rag_pipeline.query(query)
 
 st.title("📜 AI Legal Document Assistant")
 st.markdown("**Upload a legal document** to analyze, summarize, and chat with it. Powered by Gemini AI.")

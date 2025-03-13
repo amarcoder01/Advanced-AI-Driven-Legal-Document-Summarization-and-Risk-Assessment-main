@@ -2,6 +2,7 @@
 Main RAG pipeline that integrates all components.
 """
 import os
+import gc
 from typing import List, Dict, Any, Optional
 
 from rag_document_loader import DocumentProcessor
@@ -109,35 +110,35 @@ class RAGPipeline:
         """Query the RAG pipeline.
         
         Args:
-            query: User query
-            k: Number of documents to retrieve (overrides default)
+            query: Query string
+            k: Number of documents to retrieve
             
         Returns:
-            Dictionary with answer and source documents
+            Dictionary containing query results
         """
-        if not self.is_initialized:
-            raise ValueError("RAG pipeline not initialized. Call initialize() first.")
+        try:
+            # Clear memory before heavy operations
+            gc.collect()
             
-        k = k or TOP_K_RETRIEVAL
-        
-        # Option 1: Use the retrieval QA chain (preferred)
-        if self.gemini_langchain.retrieval_qa:
-            result = self.gemini_langchain.answer_with_sources(query)
-            return result
+            # Use configured k if not specified
+            k = k or TOP_K_RETRIEVAL
             
-        # Option 2: Manual retrieval and QA
-        elif self.embedding_manager.vector_store:
-            # Make sure QA chain is set up
-            if not self.gemini_langchain.qa_chain:
-                self.gemini_langchain.setup_qa_chain()
-                
-            # Retrieve relevant documents
-            docs = self.embedding_manager.similarity_search(query, k=k)
-            retrieved_docs = [doc[0] for doc in docs]  # Extract documents from (doc, score) tuples
+            # Get relevant documents
+            relevant_docs = self.embedding_manager.get_relevant_documents(query, k=k)
             
-            # Get answer
-            result = self.gemini_langchain.answer_with_sources(query, retrieved_docs)
-            return result
+            # Generate response
+            response = self.gemini_langchain.generate_response(query, relevant_docs)
             
-        else:
-            raise ValueError("No vector store or QA chain available.") 
+            # Clear memory after operations
+            gc.collect()
+            
+            return {
+                "response": response,
+                "relevant_docs": relevant_docs
+            }
+        except Exception as e:
+            print(f"Error in RAG query: {str(e)}")
+            return {
+                "response": f"Error processing query: {str(e)}",
+                "relevant_docs": []
+            } 

@@ -36,11 +36,13 @@ if HUGGINGFACE_API_KEY:
 # Model settings
 GEMINI_MODEL = "gemini-pro"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+TEMPERATURE = 0.2
+MAX_OUTPUT_TOKENS = 1024
 
 # RAG settings
-CHUNK_SIZE = 1000
-CHUNK_OVERLAP = 200
-TOP_K_RETRIEVAL = 5
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 50
+TOP_K_RETRIEVAL = 3
 
 # Vector database settings
 VECTOR_DB_PATH = "./vector_db"
