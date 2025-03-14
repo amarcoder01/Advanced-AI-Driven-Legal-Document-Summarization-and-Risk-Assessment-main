@@ -1,13 +1,17 @@
 🚀 Advanced AI-Powered Legal Document Analysis System
+
 📋 Project Overview
 An intelligent, AI-driven legal document analysis platform designed for legal professionals and organizations. This system streamlines document review, automates risk assessment, ensures regulatory compliance, and provides interactive query capabilities.
 
 🎯 Key Objectives
+
 Automate legal document review
 Minimize manual analysis time
 Ensure consistent risk assessment
 Enhance regulatory compliance monitoring
 Support data-driven legal decision-making
+
+
 💡 Value Proposition
 ✅ 90% reduction in document review time
 ✅ Real-time compliance monitoring
@@ -99,16 +103,20 @@ streamlit run app.py
 Open in Browser: http://localhost:8501
 Upload a Legal Document
 Explore Features:
+
 AI-Powered Analysis
 Risk Assessment
 Compliance Checking
 Legal Chat Assistant
 Export & Report Generation
+
 🔹 Advanced Capabilities
 Compare Documents: Upload multiple files
 Custom Risk Settings: Adjust parameters
 Regulatory Compliance Selection
 Report Customization Options
+
+
 🚀 Deployment Options
 🔹 Local Deployment
 Run on local machine via Streamlit
@@ -201,5 +209,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 For support, reach out via:
 📩 GitHub Issues: Project Issues
-📚 Docs: 
 📧 Email: amar01pawar80@gmail.com
