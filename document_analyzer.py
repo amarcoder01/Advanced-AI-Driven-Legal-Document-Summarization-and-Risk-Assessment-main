@@ -1,15 +1,40 @@
 import streamlit as st
 import logging
-from google.generativeai import GenerativeModel
+import google.generativeai as genai
 from typing import Optional
+import os
 
 class DocumentAnalyzer:
     def __init__(self):
         """Initialize the document analyzer with Gemini model."""
         try:
-            self.model = GenerativeModel("gemini-1.5-flash-latest")
+            # Try getting API key from environment variable first
+            api_key = os.getenv('GOOGLE_API_KEY')
+            
+            # If not in environment, try Streamlit secrets
+            if not api_key:
+                try:
+                    # Try the new location first
+                    api_key = st.secrets["api"]["GEMINI_API_KEY"]
+                except:
+                    try:
+                        # Try the old location as fallback
+                        api_key = st.secrets["google"]["api_key"]
+                    except:
+                        pass
+            
+            # If still no API key, show error
+            if not api_key:
+                st.error("Google API key not found. Please set it in your environment variables as 'GOOGLE_API_KEY' or in Streamlit secrets.")
+                self.model = None
+                return
+            
+            genai.configure(api_key=api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-pro')
+            
         except Exception as e:
             logging.error(f"Error initializing Gemini model: {str(e)}")
+            st.error(f"Error initializing document analyzer: {str(e)}")
             self.model = None
 
     def summarize_document(self, text: str) -> Optional[str]:
@@ -34,10 +59,14 @@ class DocumentAnalyzer:
             )
             
             response = self.model.generate_content(prompt)
-            return response.text.strip() if response and hasattr(response, "text") else None
+            if not response or not response.text:
+                raise ValueError("Empty response received from the model")
+                
+            return response.text.strip()
             
         except Exception as e:
             logging.error(f"Error in document summarization: {str(e)}")
+            st.error(f"Error generating summary: {str(e)}")
             return None
 
     def analyze_document_ui(self) -> None:
@@ -48,7 +77,11 @@ class DocumentAnalyzer:
             if st.button("Generate Summary", key="generate_summary_button"):
                 with st.spinner("Analyzing document..."):
                     summary = self.summarize_document(st.session_state.extracted_text)
-                    st.session_state.summary = summary if summary else "No summary generated."
+                    if summary:
+                        st.session_state.summary = summary
+                        st.success("Summary generated successfully!")
+                    else:
+                        st.error("Failed to generate summary. Please check your API key configuration and try again.")
             
             if st.session_state.get("summary"):
                 st.markdown("### 📝 Document Summary")
