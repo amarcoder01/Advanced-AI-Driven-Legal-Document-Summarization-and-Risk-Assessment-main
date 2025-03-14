@@ -135,23 +135,23 @@ Deploy the application
 📁 Project Structure
 
 advanced-ai-legal-analysis/
-├── app.py                 # Main application
+├── app.py               
 ├── modules/
-│   ├── chat_handler.py    # AI Chat Assistant
-│   ├── compliance_checker.py # Compliance analysis
-│   ├── document_analyzer.py # Document processing
-│   ├── document_comparer.py # Document comparison
-│   ├── export_handler.py    # Export functionality
-│   └── risk_analyzer.py     # Risk assessment
-├── utils/
-│   ├── file_processor.py    # File handling
-│   └── state_management.py  # Session management
+│   ├── chat_handler.py  
+│   ├── compliance_checker.py 
+│   ├── document_analyzer.py 
+│   ├── document_comparer.py 
+│   ├── export_handler.py    
+│   └── risk_analyzer.py     
+├── utils
+│   ├── file_processor.py    
+│   └── state_management.py  
 ├── config/
-│   ├── settings.py          # Configuration
-│   └── constants.py         # Constants & Enums
-├── tests/                  # Test suite
-├── requirements.txt        # Dependencies
-└── README.md              # Documentation
+│   ├── settings.py       
+│   └── constants.py     
+├── tests/             
+├── requirements.txt       
+└── README.md              
 
 🔌 API Integration
 🔹 Google Gemini API
