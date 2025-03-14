@@ -1,28 +1,3 @@
-# In the upload section
-# In the upload section
-# st.button("Analyze Document", key="analyze_doc_button")
-"""AI Legal Document Assistant
-
-A Streamlit application for analyzing, summarizing, and assessing risks in legal documents.
-This application uses Google's Gemini API to provide AI-powered document analysis.
-
-Features:
-- Document upload and text extraction (PDF, DOCX, TXT)
-- AI-powered document summarization
-- Legal risk identification and assessment
-- Interactive chat with documents
-- Risk visualization with charts and metrics
-- Export options (PDF, DOCX, TXT) for analysis results
-
-Deployment Requirements:
-- Python 3.9+
-- Streamlit Cloud account
-- Google Gemini API key (configured in .streamlit/secrets.toml)
-- Required packages in requirements.txt
-
-Created for Legal professionals and businesses to streamline document analysis.
-"""
-
 import streamlit as st
 import logging
 import smtplib
@@ -937,7 +912,7 @@ with tab1:
         st.success(f"Document uploaded: {uploaded_file.name}")
         
         with st.expander("View Document Text"):
-            st.write(text[:1000] + "..." if len(text) > 1000 else text)
+            st.write(text)  # Show complete text without truncation
     else:
         if st.session_state.get("extracted_text"):
             # Show previous analysis if document was already uploaded
