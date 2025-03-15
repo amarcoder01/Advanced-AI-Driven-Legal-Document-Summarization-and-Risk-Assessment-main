@@ -234,29 +234,7 @@ graph LR
 - [ ] Additional file format support
 - [ ] Extended compliance features
 
-### 4.4 Development Timeline
 
-```mermaid
-gantt
-    title Project Timeline
-    dateFormat  YYYY-MM-DD
-    section Setup
-    Repository initialization      :done, d
-    Basic UI implementation        :done, , d
-    section Core Features
-    Document processing            :done, , 14d
-    AI integration                 :done, , 21d
-    section Advanced Features
-    RAG implementation             :done, , 21d
-    Risk analysis                  :done, , 14d
-    Export functionality           :done, , 14d
-    section Optimization
-    Performance improvements       :active, , 21d
-    UX enhancements                :, 14d
-    Extended features              :, 21d
-```
-
----
 
 ## 5. Project Setup & Execution
 
