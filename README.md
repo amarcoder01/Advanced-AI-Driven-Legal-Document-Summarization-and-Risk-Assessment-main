@@ -408,24 +408,7 @@ nltk.download(['punkt', 'averaged_perceptron_tagger', 'vader_lexicon'])
 
 ---
 
-## Future Roadmap
 
-### Planned Enhancements
-
-```mermaid
-gantt
-    title Development Roadmap
-    dateFormat  YYYY-MM
-    section Performance
-    Optimization        :
-    Scalability         :
-    section Features
-    Additional Formats   :
-    Advanced AI Models   :
-    section Integration
-    Legal Databases      :
-    Team Collaboration   :
-```
 
 ### Short-Term Goals
 - Performance optimization for large documents
