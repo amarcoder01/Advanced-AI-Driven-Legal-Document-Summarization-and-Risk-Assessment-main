@@ -1,212 +1,163 @@
-🚀 Advanced AI-Powered Legal Document Analysis System
-
-📋 Project Overview
-An intelligent, AI-driven legal document analysis platform designed for legal professionals and organizations. This system streamlines document review, automates risk assessment, ensures regulatory compliance, and provides interactive query capabilities.
-
-🎯 Key Objectives
-
-Automate legal document review
-Minimize manual analysis time
-Ensure consistent risk assessment
-Enhance regulatory compliance monitoring
-Support data-driven legal decision-making
+# 📄 AI-Driven Legal Document Analysis System
 
 
-💡 Value Proposition
-✅ 90% reduction in document review time
-✅ Real-time compliance monitoring
-✅ Consistent and explainable risk assessment
-✅ Interactive document querying
-✅ Comprehensive reporting capabilities
 
-✨ Key Features
-📄 Document Analysis
-Multi-Format Support: Handles PDF, DOCX, and TXT files
-AI-Powered Summarization: Generates concise summaries
-Key Clause Extraction: Identifies crucial legal terms
-Document Comparison: Highlights similarities & differences
-
-⚖️ Risk Assessment
-Automated Risk Evaluation: Detects potential legal risks
-Risk Scoring System: Detailed analysis with explanations
-Categorized Risk Levels: Organized by type and severity
-Visual Dashboards: Interactive risk visualization
-
-📜 Compliance Checking
-Regulatory Framework Integration: Matches multiple regulations
-Compliance Scoring: Measures adherence levels
-Automated Reporting: Generates compliance reports
-Regulatory Updates: Tracks and adapts to legal changes
-
-💬 AI-Powered Legal Assistant
-Smart Query Analysis: Answers document-specific questions
-Legal Knowledge Base: Provides references & precedents
-Case Study Examples: Offers real-world applications
-Context-Aware Responses: Improves accuracy with RAG (Retrieval-Augmented Generation)
-
-📤 Export & Sharing
-Multiple File Formats: PDF, DOCX, TXT support
-Customizable Reports: Select sections to export
-Email Integration: Share reports directly
-User-Defined Output Settings: Tailor document exports
-
-🛠️ Technology Stack
-💻 Core Technologies
-Frontend: Streamlit
-Backend: Python (3.8+)
-Database: FAISS, ChromaDB
-
-🧠 AI/ML Components
-Primary AI Model: Google Gemini
-RAG Implementation: LangChain
-Embeddings: Sentence Transformers
-Vector Storage: FAISS
-
-📑 Document Processing
-PDF Handling: PyMuPDF, PDFMiner
-Word Documents: python-docx
-Text Analysis: NLTK, scikit-learn
-📊 Data Analysis & Visualization
-
-Processing: Pandas, NumPy
-Visualization: Matplotlib, Seaborn, Plotly
-Machine Learning: scikit-learn
-
-📥 Installation Guide
-Prerequisites
-✔ Python 3.8+
-✔ Git Installed
-✔ Virtual Environment (Recommended)
-
-🔧 Installation Steps
-1️⃣ Clone the Repository
-git clone https://github.com/yourusername/Advanced-AI-Driven-Legal-Document-Analysis.git
-cd Advanced-AI-Driven-Legal-Document-Analysis
-
-2️⃣ Set Up Virtual Environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-3️⃣ Install Dependencies
-pip install -r requirements.txt
-
-4️⃣ Configure API Keys
-Create a .env file:
-env
-Copy
-Edit
-GOOGLE_API_KEY=your_api_key_here
-
-5️⃣ Run the Application
-streamlit run app.py
-
-Open in Browser: http://localhost:8501
-Upload a Legal Document
-Explore Features:
-
-AI-Powered Analysis
-Risk Assessment
-Compliance Checking
-Legal Chat Assistant
-Export & Report Generation
-
-🔹 Advanced Capabilities
-Compare Documents: Upload multiple files
-Custom Risk Settings: Adjust parameters
-Regulatory Compliance Selection
-Report Customization Options
+A powerful, AI-driven tool designed to analyze, summarize, and assess risks in legal documents. Leveraging state-of-the-art language models and specialized legal analysis techniques to help legal professionals save time and gain deeper insights.
 
 
-🚀 Deployment Options
-🔹 Local Deployment
-Run on local machine via Streamlit
-Access via localhost
-🔹 Cloud Deployment (Streamlit Cloud)
-Push code to GitHub
-Connect repository to Streamlit Cloud
-Configure secrets in the dashboard
-Deploy the application
-🔹 Production Considerations
-✅ API Key Management
-✅ Error Logging
-✅ Rate Limiting
-✅ Performance Monitoring
 
-📁 Project Structure
+## ✨ Key Features
 
-advanced-ai-legal-analysis/
-├── app.py               
-├── modules/
-│   ├── chat_handler.py  
-│   ├── compliance_checker.py 
-│   ├── document_analyzer.py 
-│   ├── document_comparer.py 
-│   ├── export_handler.py    
-│   └── risk_analyzer.py     
-├── utils
-│   ├── file_processor.py    
-│   └── state_management.py  
-├── config/
-│   ├── settings.py       
-│   └── constants.py     
-├── tests/             
-├── requirements.txt       
-└── README.md              
+- 📃 **Document Summarization**: Generate concise, accurate summaries of complex legal documents
+- 🔍 **Risk Assessment**: Identify potential legal risks with severity ratings and visualizations
+- 💬 **Interactive Q&A**: Ask questions about the document and receive contextual answers
+- 🔀 **Document Comparison**: Compare two legal documents with detailed difference analysis and tabular views
+- 📋 **Compliance Analysis**: Identify relevant regulatory requirements for specific document types
+- 📊 **Visual Reports**: Generate comprehensive PDF reports with visualizations
+- 📧 **Email Integration**: Send analysis reports directly via email
+- 📜 **Legal Updates**: Stay informed about relevant legal changes related to your documents
 
-🔌 API Integration
-🔹 Google Gemini API
-AI-Powered document analysis
-Legal query processing
-🔹 LangChain (RAG)
-Implements retrieval-augmented generation
-Enhances AI accuracy with document context
-⚠️ Risk & Compliance Processing
-🏷️ Risk Assessment Workflow
-1️⃣ Extracts key information
-2️⃣ Identifies legal risks
-3️⃣ Categorizes by type & severity
-4️⃣ Provides detailed risk reports
+## 🚀 Tech Stack
 
-📑 Compliance Verification
-1️⃣ Loads regulatory frameworks
-2️⃣ Analyzes documents for compliance
-3️⃣ Highlights non-compliance areas
-4️⃣ Generates actionable compliance reports
+- **Frontend**: Streamlit
+- **Language Models**: LangChain + Groq (Llama 3)
+- **Document Processing**: PyMuPDF, NLTK, Regex
+- **Vector Search**: FAISS, Sentence Transformers
+- **Data Visualization**: Plotly, Pandas
+- **PDF Generation**: FPDF
+- **Email Service**: SendGrid
+- **Web Scraping**: BeautifulSoup, Requests
 
-🤝 Contributing
-🔹 Contribution Steps
-Fork the Repository
-Create a Feature Branch
-Commit & Push Changes
-Submit a Pull Request
-🔹 Code Standards
-✅ Follow PEP 8
-✅ Include docstrings & type hints
-✅ Write unit tests
+## 🏗️ Architecture
 
-❓ Troubleshooting & FAQs
-🔹 Common Issues
-1️⃣ API Key Errors
-✔ Verify key in .env file
-✔ Check Streamlit secrets configuration
+The system follows a modular architecture with specialized components:
 
-2️⃣ Document Processing Errors
-✔ Ensure correct file format
-✔ Verify file size & permissions
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│  Document       │────▶│  Analysis       │────▶│  Visualization  │
+│  Processing     │     │  Engine         │     │  & Reporting    │
+│                 │     │                 │     │                 │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+        │                       │                       │
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│  Vector         │     │  Legal          │     │  Email          │
+│  Database       │     │  Knowledge Base │     │  Service        │
+│                 │     │                 │     │                 │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
 
-3️⃣ Performance Optimization
-✔ Monitor memory usage
-✔ Check API rate limits
+## 🔧 Installation
 
-📄 License
-This project is licensed under the MIT License. See the LICENSE file for details.
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/legal-document-analysis.git
+   cd legal-document-analysis
+   ```
 
-🙏 Acknowledgments
-🎯 Google – Gemini API
-🎯 Streamlit – UI Framework
-🎯 LangChain – RAG Implementation
-🎯 Contributors & Users
+2. Create a virtual environment
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-For support, reach out via:
-📩 GitHub Issues: Project Issues
-📧 Email: amar01pawar80@gmail.com
+3. Install dependencies
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Create a `.env` file with your API keys
+   ```
+   GROQ_API_KEY=your_groq_api_key
+   SENDGRID_API_KEY=your_sendgrid_api_key
+   SENDER_EMAIL=your_sender_email
+   ```
+
+5. Run the application
+   ```bash
+   streamlit run app.py --server.fileWatcherType none
+   ```
+
+## 📋 Usage Guide
+
+### Document Analysis
+1. Upload your legal document (PDF format)
+2. Click "Analyze Document" to process
+3. View the generated summary and navigate to other tabs for detailed analysis
+
+### Risk Assessment
+- The Risk Dashboard provides visual representations of identified risks
+- Risks are categorized by severity (Critical, High, Medium, Low)
+- Interactive charts show risk distribution by category
+
+### Document Q&A
+- Ask specific questions about the document content
+- The system uses RAG (Retrieval Augmented Generation) to provide accurate answers
+- Previous questions and answers are saved in chat history
+
+### Document Comparison
+- Upload a second document to compare with your original document
+- View differences highlighted in an interactive display
+- Choose between detailed comparison or tabular comparison views
+- Generate a comparison report for sharing
+
+### Compliance Analysis
+- Automatically identifies relevant compliance requirements based on document type
+- Shows key regulations, requirements, and recent updates
+- Useful for ensuring documents adhere to relevant legal standards
+
+## 🌟 Implementation Highlights
+
+### Advanced Document Processing
+The system uses a combination of PyMuPDF for extraction and NLTK for natural language processing to handle complex legal documents with proper structure recognition.
+
+### Semantic Understanding
+Instead of simple keyword matching, the system employs semantic embeddings to understand document meaning, enabling more accurate summarization and comparison.
+
+### Retrieval Augmented Generation (RAG)
+The Q&A system implements RAG architecture to retrieve relevant document sections before generating answers, ensuring responses are contextually accurate and grounded in the document content.
+
+### Legal-Specific Analysis
+Custom-built analyzers for various legal document types (contracts, GDPR documents, employment agreements, etc.) provide specialized insights for each document category.
+
+## 🔮 Future Improvements
+
+- Multi-document analysis and correlation
+- Integration with legal case databases
+- Collaborative annotations and team workflows
+- Support for additional document formats (DOCX, HTML)
+- Custom fine-tuning for specific legal domains
+- Mobile application version
+
+## ⚠️ Troubleshooting
+
+### PyTorch and Streamlit Compatibility
+If you encounter a "RuntimeError: Tried to instantiate class '__path__._path'" error, you have two options:
+
+1. Add this at the top of app.py:
+   ```python
+   import os
+   os.environ["PYTORCH_JIT"] = "0"  # Disable PyTorch JIT
+   ```
+
+2. Or run Streamlit with this flag:
+   ```bash
+   streamlit run app.py --server.fileWatcherType none
+   ```
+
+### NLTK Resources
+Make sure NLTK resources are properly downloaded:
+```python
+import nltk
+nltk.download(['punkt', 'punkt_tab', 'averaged_perceptron_tagger', 'vader_lexicon'])
+```
+
+## 📜 License
+
+© 2025 VidzAI - All Rights Reserved. This software is proprietary and confidential.
+
+
+
