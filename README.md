@@ -417,14 +417,14 @@ gantt
     title Development Roadmap
     dateFormat  YYYY-MM
     section Performance
-    Optimization        :2024-04, 2024-05
-    Scalability         :2024-05, 2024-06
+    Optimization        :
+    Scalability         :
     section Features
-    Additional Formats   :2024-04, 2024-06
-    Advanced AI Models   :2024-05, 2024-07
+    Additional Formats   :
+    Advanced AI Models   :
     section Integration
-    Legal Databases      :2024-06, 2024-08
-    Team Collaboration   :2024-07, 2024-09
+    Legal Databases      :
+    Team Collaboration   :
 ```
 
 ### Short-Term Goals
@@ -446,10 +446,10 @@ gantt
 
 <div align="center">
 
-© 2024 VidzAI - All Rights Reserved.
+© 2025 VidzAI - All Rights Reserved.
 
 This software is proprietary and confidential. Unauthorized copying, transfer, or reproduction of the contents of this software is strictly prohibited.
 
-**Built with ❤️ by the VidzAI Team**
+**Built with ❤️ by the -- Team**
 
 </div>
