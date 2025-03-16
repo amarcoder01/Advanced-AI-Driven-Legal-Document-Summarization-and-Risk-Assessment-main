@@ -8,7 +8,7 @@
 </div>
 
 ## Table of Contents
-1. [Agile Model & Development Journey](#agile-model--development-journey)
+1. [ Development Journey](#agile-model--development-journey)
 2. [Version Control & GitHub Setup](#version-control--github-setup)
 3. [Milestone-Based Development](#milestone-based-development)
 5. [Project Setup & Execution](#project-setup--execution)
@@ -21,7 +21,7 @@
 
 ---
 
-## 1. Agile Model & Development Journey
+## 1.  Development Journey
 
 ### 1.1 Development Approach
 Our AI-Driven Legal Document Analysis System follows a **Feature-Driven Development** approach with iterative improvements:
